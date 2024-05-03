@@ -1,0 +1,32 @@
+
+.table{
+  font-family: rgb(173, 200, 201)serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+div, h1 {
+  font-family: "Times New Roman", Times;
+}
+
+td.sequence {
+	font-family: "Times New Roman", Times;
+}
+
+td, th {
+  border: 1px solid #1d2545;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #0e0e1c;
+}
+
+div.show {
+	display: block;
+}
+
+div.hide {
+    display: none;
+}

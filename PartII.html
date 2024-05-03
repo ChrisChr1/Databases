@@ -1,0 +1,206 @@
+<html>
+<head>
+    <title> Part 2: REST APIs</title>
+    <style>
+        .button {
+          background-color: #b17d30;
+          border: none;
+          color: rgb(84, 39, 18);
+          padding: 15px 32px;
+          text-align: center; 
+          font-size: 16px;
+          font-weight: bold;
+          margin: 4px 2px;
+        }
+        </style>
+<script >
+
+function loadJSON() {
+//The file to process
+    var data_file = "uniprot.json";
+// Create an XMLHttpRequest object
+    http_request = new XMLHttpRequest();
+//Callback function: Process the response
+    http_request.onreadystatechange = function() {
+        if (http_request.readyState == 4 && http_request.status == 200) {
+            var table = "<table border=3 bgcolor=brown width=60% align=center>";
+            table += "<tr><th>Protein</th><td>Existence</td></tr>";
+        // Javascript function JSON.parse to parse JSON data
+            var jsonObj = JSON.parse(http_request.responseText);
+        //check if everything is ok.
+            console.log(jsonObj);
+            let size = jsonObj.docs.length;
+        // jsonObj variable now contains the data structure and can
+        // be accessed as jsonObj keys.
+            for (var i = 0; i < size; i++) {
+                if(jsonObj.docs[i].proteinExistence === "Predicted"){
+                    table += "<tr>";
+                    table += "<td>" + jsonObj.docs[i].protein.submittedName[0].fullName.value; +"</td>";
+                    table += "<td>" + jsonObj.docs[i].proteinExistence; +"</td>";
+                    table += "</tr>";}
+        }
+            table += "</table>";
+            document.getElementById('container').innerHTML = table;
+    }
+}
+
+http_request.open("GET", data_file, true);
+
+http_request.send();
+}
+
+function loadJSON2() {
+//The file to process
+    var data_file = "uniprot.json";
+// Create an XMLHttpRequest object
+    http_request = new XMLHttpRequest();
+//Callback function: Process the response
+    http_request.onreadystatechange = function() {
+        if (http_request.readyState == 4 && http_request.status == 200) {
+            var table = "<table border=3 bgcolor=grey width=60% align=center>";
+            table += "<tr><th>Gene</th><th>Accession</th></tr>";
+        // Javascript function JSON.parse to parse JSON data
+            var jsonObj = JSON.parse(http_request.responseText);
+        //check if everything is ok.
+            console.log(jsonObj);
+            let size = jsonObj.docs.length;
+        // jsonObj variable now contains the data structure and can
+        // be accessed as jsonObj keys.
+            for (var i = 0; i < size; i++) {
+                if(jsonObj.docs[i]["gene"] != null)
+                    if(jsonObj.docs[i].gene[0].name != null){
+                        table +="<tr>";
+                        table += "<td>" +  jsonObj.docs[i].gene[0].name.value ; + "</td>";
+                        table += "<td>" +  jsonObj.docs[i].accession ; + "</td>";
+                    table += "</tr>";}
+        }
+            table += "</table>";
+            document.getElementById('container2').innerHTML = table;
+    }
+}
+
+http_request.open("GET", data_file, true);
+
+http_request.send();
+}
+
+function loadJSON3() {
+//The file to process
+    var data_file = "uniprot.json";
+// Create an XMLHttpRequest object
+    http_request = new XMLHttpRequest();
+//Callback function: Process the response
+    http_request.onreadystatechange = function() {
+        if (http_request.readyState == 4 && http_request.status == 200) {
+            var table = "<table border=3 bgcolor=white width=60% align=center>";
+            table += "<tr><th>Recommended Protein Name</th><th>Gene </th></tr>";
+        // Javascript function JSON.parse to parse JSON data
+            var jsonObj = JSON.parse(http_request.responseText);
+        //check if everything is ok.
+            console.log(jsonObj);
+            let size = jsonObj.docs.length;
+        // jsonObj variable now contains the data structure and can
+        // be accessed as jsonObj keys.
+            for (var i = 0; i < size; i++) {
+                if(jsonObj.docs[i].gene != null)
+                    if(jsonObj.docs[i].gene[0].name != null)
+                        if(jsonObj.docs[i].protein != null)
+                            if(jsonObj.docs[i].protein.recommendedName != null)
+                                if(jsonObj.docs[i].protein.recommendedName.fullName != null){
+                                    table +="<tr>";
+                                    table += "<td>" +  jsonObj.docs[i].protein.recommendedName.fullName.value ; + "</td>";
+                                    table += "<td>" +  jsonObj.docs[i].gene[0].name.value ; + "</td>";}
+        
+                                    table += "</tr>";}
+            table += "</table>"
+            document.getElementById('container3').innerHTML = table;
+    }
+}
+
+http_request.open("GET", data_file, true);
+
+http_request.send();
+}
+
+function loadJSON4() {
+//The file to process
+    var data_file = "uniprot.json";
+// Create an XMLHttpRequest object
+    http_request = new XMLHttpRequest();
+//Callback function: Process the response
+    http_request.onreadystatechange = function() {
+        if (http_request.readyState == 4 && http_request.status == 200) {
+            var table = "<table border=3 bgcolor=beige width=60% align=center>";
+            table += "<tr><th>Accession</th><th>Gene</th></tr>";
+        // Javascript function JSON.parse to parse JSON data
+            var jsonObj = JSON.parse(http_request.responseText);
+        //check if everything is ok.
+            console.log(jsonObj);
+            let size = jsonObj.docs.length;
+        // jsonObj variable now contains the data structure and can
+        // be accessed as jsonObj keys.
+            const char = "m"
+            for (var i = 0; i < size; i++) {
+                if(jsonObj.docs[i].gene != null)
+                    if(jsonObj.docs[i].gene[0].name != null)
+                        if(jsonObj.docs[i].gene[0].name.value[0] == char){
+                                table +="<tr>";
+                                table += "<td>" +  jsonObj.docs[i].accession ; + "</td>";
+                                table += "<td>" +  jsonObj.docs[i].gene[0].name.value ; + "</td>";}
+        
+                                table += "</tr>";}
+            table += "</table>"
+            document.getElementById('container4').innerHTML = table;
+    }
+}
+
+http_request.open("GET", data_file, true);
+
+http_request.send();
+}
+</script>
+
+</head>
+<body>
+    <h1> <dd><center><p style="background-color: rgb(71, 70, 56); font-size: larger;"> 
+        UniProt REST APIs
+    </p></center>
+    </dd></h1>
+    <h2><center>Project IV, Part II</center></h2>
+    
+
+    <style> 
+        body {background-color: rgb(210, 193, 154)}
+    </style>
+
+<div align="center">
+<button type="button" class="button" onclick="loadJSON();">
+    Predicted Proteins
+</button>
+<div id="container"/>
+</div>
+
+
+<div align="center">
+    <button type="button" class="button" onclick="loadJSON2();">
+        Genes with associated proteins
+    </button>
+    <div id="container2"/>
+    </div>
+
+<div align="center">
+    <button type="button" class="button" onclick="loadJSON3();">
+        Genes with associated recommended name
+    </button>
+    <div id="container3"/>
+    </div>
+
+<div align="center">
+<button type="button" class="button" onclick="loadJSON4();">
+    Genes starting with the letter 'm'
+</button>
+<div id="container4"/>
+</div>
+</body>
+</html>
+

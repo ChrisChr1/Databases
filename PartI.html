@@ -1,0 +1,128 @@
+<html lang="en">
+<head>
+
+<title> Part 1: JS Fetch</title>
+<style>
+    .button {
+      background-color: #a3c5b6;
+      border: none;
+      color: rgb(47, 97, 92);
+      padding: 15px 32px;
+      text-align: center; 
+      font-size: 16px;
+      font-weight: bold;
+      margin: 4px 2px;
+    }
+    </style>
+
+<script>
+
+    const api_url ='uniprot.json';
+    async function getproteins(){
+        //await can only be sued inside an async function
+        //async makes a function return a Promise
+        //await makes a function wait for a Promise
+        var table = "<table border=3 bgcolor=white width=500 align=center>";
+        table += "<tr><th>Protein</th><td>Existence</td></tr>";
+
+        const response =   await fetch(api_url, { mode: 'no-cors'}) ;
+        let  data =   await response.json();
+        let size = await data.docs.length;
+        for (var i = 0; i < size; i++ ) 
+            if(data.docs[i].proteinExistence === "Predicted"){
+                table +="<tr>";
+                table += "<td>" +  data.docs[i].protein.submittedName[0].fullName.value ; + "</td>";
+                table += "<td>" +  data.docs[i].proteinExistence; + "</td>";}
+        table += "</tr>";
+        table += "</table>"
+        document.getElementById('container').innerHTML = table; 
+    }
+
+    async function getgenes(){
+        //await can only be sued inside an async function
+        //async makes a function return a Promise
+        //await makes a function wait for a Promise
+        var table = "<table border=3 bgcolor=beige width=500 align=center>";
+        table += "<tr><th>Gene</th><th>Accession</th></tr>";
+
+        const response =   await fetch(api_url, { mode: 'no-cors'}) ;
+        let  data =   await response.json();
+        let size = await data.docs.length;
+        for (var i = 0; i < size; i++ )
+            if(data.docs[i].gene != null)
+                if(data.docs[i].gene[0].name != null){
+                    table +="<tr>";
+                    table += "<td>" +  data.docs[i].gene[0].name.value ; + "</td>";
+                    table += "<td>" +  data.docs[i].accession ; + "</td>";}
+        
+        table += "</tr>";
+        table += "</table>"
+        document.getElementById('container2').innerHTML = table; 
+    } 
+
+    async function getname(){
+        //await can only be sued inside an async function
+        //async makes a function return a Promise
+        //await makes a function wait for a Promise
+        var table = "<table border=3 bgcolor=rgb(47, 97, 92) width=500 align=center>";
+        table += "<tr><th>Recommended Name</th><th>Gene</th></tr>";
+
+        const response =   await fetch(api_url, { mode: 'no-cors'}) ;
+        let  data =   await response.json();
+        let size = await data.docs.length;
+        for (var i = 0; i < size; i++ )
+        if(data.docs[i].gene != null)
+                if(data.docs[i].gene[0].name != null)
+                    if(data.docs[i].protein != null)
+                        if(data.docs[i].protein.recommendedName != null)
+                            if(data.docs[i].protein.recommendedName.fullName != null){
+                                table +="<tr>";
+                                table += "<td>" +  data.docs[i].protein.recommendedName.fullName.value ; + "</td>";
+                                table += "<td>" +  data.docs[i].gene[0].name.value ; + "</td>";}
+        
+        table += "</tr>";
+        table += "</table>"
+        document.getElementById('container3').innerHTML = table; 
+    } 
+    
+    
+</script>
+
+
+</head>
+
+<body> 
+    <h1> <dd><center><p style="background-color: rgb(142, 128, 91); font-size: larger;"> 
+        UniProt Javascript Fetch
+    </p></center>
+    </dd></h1>
+    <h2><center>Project IV, Part I</center></h2>
+    
+
+<style> 
+    body {background-color: rgb(95, 155, 153)}
+</style>
+
+<div align="center">
+ <button type="button" class="button" onclick="getproteins();">
+    Predicted proteins
+    </button>
+    <div id="container"/>
+</div>
+
+<div align="center">
+ <button type="button" class="button" onclick="getgenes();">
+    Genes with associated proteins
+    </button>
+    <div id="container2"/>
+</div>
+
+<div align="center">
+    <button type="button" class="button" onclick="getname();">
+       Recommended name with genes associated
+       </button>
+       <div id="container3"/>
+   </div>
+</body>
+
+</html>
